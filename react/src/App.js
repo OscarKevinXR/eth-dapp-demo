@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import waveportal from './utils/WavePortal.json';
 import { ethers } from "ethers";
 import './App.css';
+import portalImg from'./assets/portal.jpeg';
 
 export default function App() {
 
     const [currentAccount, setCurrentAccount] = useState("");
+    const [message, setMessage] = useState("");
     const [allWaves, setAllWaves] = useState([]);
-    const contractAddress = "0x1AdBCba2D5A83AEac283d467D6A8F138D0ceEE21";
+    const contractAddress = "0x9bB239d78e27AF7e90b3749204F1323f9696dcfF";
 
 
     const checkIfWalletIsConnected = async () => {
@@ -76,7 +78,7 @@ export default function App() {
         /*
         * Execute the actual wave from your smart contract
         */
-          const waveTxn = await waveportalContract.wave("this is a message", 
+          const waveTxn = await waveportalContract.wave(message, 
           { gasLimit: 300000 }
         )
         console.log("Mining...", waveTxn.hash);
@@ -160,15 +162,27 @@ export default function App() {
 
       <div className="dataContainer">
         <div className="header">
-        👋 Hey there!
+        ⚔️ Welcome to the Grand Challenge ⚔️
         </div>
+        <br/>
+
+        <img  src={portalImg} alt="portal"/>
 
         <div className="bio">
-        My name is Oscar and I work on XR, Blockchain, and Storytelling experiences in the metaverse. Pretty cool, right? Connect your Ethereum wallet and wave at me!
+        A mysterious call beckons to you from beyond the void. It feels like longing, as if your very soul yearns for you to cross the barrier. Seconds before your hand touches the glowing door in your path, a voice makes itself known in your mind and asks:  
         </div>
-
+        <center>
+          <h2>What is your reason for fighting?</h2>
+        </center>
+        <input
+            type="text"
+            name="message"
+            onChange={e => setMessage(e.target.value)}
+            // value={this.state.value}
+            // onChange={this.handleChange}
+        />
         <button className="waveButton" onClick={wave}>
-          Wave at Me
+          Declare Your Reason
         </button>
 
       {/*
@@ -182,7 +196,7 @@ export default function App() {
 
       {allWaves.map((wave, index) => {
           return (
-            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
+            <div key={index} style={{ backgroundColor: "DarkSlateBlue", marginTop: "16px", padding: "8px", color: "White" }}>
               <div>Address: {wave.address}</div>
               <div>Time: {wave.timestamp.toString()}</div>
               <div>Message: {wave.message}</div>
